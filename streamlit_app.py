@@ -4,7 +4,7 @@ import openai
 import backoff
 import time
 
-openai.organization = "org-STTHvSL4zjGwIUMrqbaakD44"
+openai.organization = st.secrets["ORGANISATION"]
 openai.api_key = st.secrets["API_KEY"]
 
 help = ["Specific industry-related terms and informal language are key to the writing style.",
