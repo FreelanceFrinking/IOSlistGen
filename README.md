@@ -1,0 +1,2 @@
+# IOSlistGen
+ Generates news bits
