@@ -87,7 +87,7 @@ def provide_feedback(chat_history, input, style_guide, idioms = ""):
     Text to review: <{input}>"""
     chat_history.append({"role": "user", "content": prompt_template})
     completion = openai.ChatCompletion.create(
-        model="gpt-4",
+        model=st.session_state['model'],
         messages=chat_history
     )
     
@@ -133,7 +133,7 @@ if 'log' not in st.session_state:
 if 'score' not in st.session_state:
     st.session_state["score"] = []
 if 'model' not in st.session_state:
-    st.session_state['model']
+    st.session_state['model'] = ""
 
 if check_password():
     tab1, tab2 = st.tabs(["GPT-3", "GPT-4"])
