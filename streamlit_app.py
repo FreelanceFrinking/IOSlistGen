@@ -199,6 +199,7 @@ if check_password():
 
         feedback = col2.text_area("Please give any feedback.")
         if col2.button('SUBMIT',key='submit_feedback'):
+            log_text(f"Score: {st.session_state['model']}")
             log_text(f"Score: {st.session_state['score']}")
             log_text(f"Feedback from Matt: {feedback}")
     col2.download_button('Download log', st.session_state['log'] , file_name = f"{time.strftime('%Y%m%d-%H%M%S')}.txt")
