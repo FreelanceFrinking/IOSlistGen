@@ -134,6 +134,8 @@ if 'score' not in st.session_state:
     st.session_state["score"] = []
 if 'model' not in st.session_state:
     st.session_state['model'] = ""
+if 'last_output' not in st.session_state:
+    st.session_state['last_output'] = ""
 
 if check_password():
     tab1, tab2 = st.tabs(["GPT-3", "GPT-4"])
@@ -194,8 +196,9 @@ if check_password():
                 output, st.session_state["chat_history_manager"] = provide_feedback(st.session_state["chat_history_manager"], output, style_guide, idioms)
                 print("Feedback: ", output)
                 output, st.session_state["chat_history_writer"] = generate_response(st.session_state["chat_history_writer"], output, style_guide, idioms, feedback = True)
+            st.session_state["last_output"] = last_output.replace("$", "\\$")
 
-            col2.write(last_output.replace("$", "\\$"))
+            col2.write(st.session_state['last_output'])
 
         feedback = col2.text_area("Please give any feedback.")
         if col2.button('SUBMIT',key='submit_feedback'):
