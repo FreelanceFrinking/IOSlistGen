@@ -130,9 +130,19 @@ if 'chat_history_manager' not in st.session_state:
         st.session_state['chat_history_manager'] = [{"role": "system", "content": SYS_MESSAGE_2}]  
 if 'log' not in st.session_state:
     st.session_state['log'] = ""
+if 'score' not in st.session_state:
+    st.session_state["score"] = []
+if 'model' not in st.session_state:
+    st.session_state['model']
 
 if check_password():
-    
+    tab1, tab2 = st.tabs(["GPT-3", "GPT-4"])
+
+    with tab1:
+        st.session_state['model'] = "gpt-3.5-turbo"
+    with tab2:
+        st.session_state['model'] = "gpt-4"
+
     st.title('Content generator IOSList')
     st.header('Upload a news text to generate a newsbit.')
     col1, col2 = st.columns(2)
@@ -144,29 +154,30 @@ if check_password():
             "Point of view","Dialogue","Narrative structure","Pace","Repetition", "Idiomatic expressions","Quirks and inconsistencies",
                 "Preferences for specific genres or forms", "Intertextuality", "Emotional resonance"], [8,7,9,8,6,4,3,7,8,9,6,1,7,7,2,4,5,9,3,3], help):
         score = col1.slider(label, min_value = 0, max_value = 10, value = value, help = help)
-        scores.append(score)
+        st.session_state['score'].append(score)
 
+    
 
-    style_guide = f"""Vocabulary: {scores[0]} - Specific industry-related terms and informal language are key to the writing style.
-    Sentence structure: {scores[1]} - A mix of simple and compound sentences with medium length is consistently used.
-    Tone: {scores[2]} - The informal and conversational tone is a significant aspect of the style.
-    Voice: {scores[3]} - A casual and informative voice is consistent throughout the texts.
-    Punctuation: {scores[4]} - Standard punctuation marks are used, but do not stand out as a unique characteristic.
-    Rhetorical devices: {scores[5]} - Minimal use; occasionally adds humor, but not a defining feature.
-    Imagery: {scores[6]} - Minimal imagery; not a strong characteristic of the style.
-    Syntax: {scores[7]} - Straightforward and clear syntax contributes to the casual and informative voice.
-    Paragraph structure: {scores[8]} - Short, focused paragraphs are consistently used.
-    Themes: {scores[9]} - Industry news, acquisitions, and insights are central to the writing style.
-    Point of view: {scores[10]} - Third-person perspective is used, but not a standout feature.
-    Dialogue: {scores[11]} - Not present in the example texts.
-    Narrative structure: {scores[12]} - Linear and concise presentation of information is consistent.
-    Pace: {scores[13]} - Quick and to the point, contributing to the informative nature of the texts.
-    Repetition: {scores[14]} - Not present in the example texts.
-    Idiomatic expressions: {scores[15]} - Minimal use; occasionally adds personality, but not a defining feature.
-    Quirks and inconsistencies: {scores[16]} - Informal language and humor are present, but not a primary characteristic.
-    Preferences for specific genres or forms: {scores[17]} - News briefs, updates, or industry insights are the preferred formats.
-    Intertextuality: {scores[18]} - Minimal references to other articles; not a strong characteristic of the style.
-    Emotional resonance: {scores[19]} - Minimal emotional impact; the focus is on conveying information.
+    style_guide = f"""Vocabulary: {st.session_state['score'][0]} - Specific industry-related terms and informal language are key to the writing style.
+    Sentence structure: {st.session_state['score'][1]} - A mix of simple and compound sentences with medium length is consistently used.
+    Tone: {st.session_state['score'][2]} - The informal and conversational tone is a significant aspect of the style.
+    Voice: {st.session_state['score'][3]} - A casual and informative voice is consistent throughout the texts.
+    Punctuation: {st.session_state['score'][4]} - Standard punctuation marks are used, but do not stand out as a unique characteristic.
+    Rhetorical devices: {st.session_state['score'][5]} - Minimal use; occasionally adds humor, but not a defining feature.
+    Imagery: {st.session_state['score'][6]} - Minimal imagery; not a strong characteristic of the style.
+    Syntax: {st.session_state['score'][7]} - Straightforward and clear syntax contributes to the casual and informative voice.
+    Paragraph structure: {st.session_state['score'][8]} - Short, focused paragraphs are consistently used.
+    Themes: {st.session_state['score'][9]} - Industry news, acquisitions, and insights are central to the writing style.
+    Point of view: {st.session_state['score'][10]} - Third-person perspective is used, but not a standout feature.
+    Dialogue: {st.session_state['score'][11]} - Not present in the example texts.
+    Narrative structure: {st.session_state['score'][12]} - Linear and concise presentation of information is consistent.
+    Pace: {st.session_state['score'][13]} - Quick and to the point, contributing to the informative nature of the texts.
+    Repetition: {st.session_state['score'][14]} - Not present in the example texts.
+    Idiomatic expressions: {st.session_state['score'][15]} - Minimal use; occasionally adds personality, but not a defining feature.
+    Quirks and inconsistencies: {st.session_state['score'][16]} - Informal language and humor are present, but not a primary characteristic.
+    Preferences for specific genres or forms: {st.session_state['score'][17]} - News briefs, updates, or industry insights are the preferred formats.
+    Intertextuality: {st.session_state['score'][18]} - Minimal references to other articles; not a strong characteristic of the style.
+    Emotional resonance: {st.session_state['score'][19]} - Minimal emotional impact; the focus is on conveying information.
     """
 
     idioms = col2.text_input("Idioms to use: ")
@@ -188,5 +199,6 @@ if check_password():
 
         feedback = col2.text_area("Please give any feedback.")
         if col2.button('SUBMIT',key='submit_feedback'):
+            log_text(f"Score: {st.session_state['score']}")
             log_text(f"Feedback from Matt: {feedback}")
     col2.download_button('Download log', st.session_state['log'] , file_name = f"{time.strftime('%Y%m%d-%H%M%S')}.txt")
