@@ -201,7 +201,7 @@ if check_password():
             col2.write(st.session_state['last_output'])
 
         feedback = col2.text_area("Please give any feedback.")
-        if col2.button('SUBMIT',key='submit_feedback'):
+        if col2.button('SUBMIT FEEDBACK (required before downloading)',key='submit_feedback'):
             log_text(f"Score: {st.session_state['model']}")
             log_text(f"Score: {st.session_state['score']}")
             log_text(f"Feedback from Matt: {feedback}")
