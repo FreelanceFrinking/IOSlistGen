@@ -205,4 +205,4 @@ if check_password():
             log_text(f"Score: {st.session_state['model']}")
             log_text(f"Score: {st.session_state['score']}")
             log_text(f"Feedback from Matt: {feedback}")
-            col2.download_button('Download log', st.session_state['log'] , file_name = f"{time.strftime('%Y%m%d-%H%M%S')}.txt")
+    col2.download_button('Download log', st.session_state['log'] , file_name = f"{time.strftime('%Y%m%d-%H%M%S')}.txt")
